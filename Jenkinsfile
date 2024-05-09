@@ -19,8 +19,7 @@ pipeline {
         stage('Run tests') {
             steps {
                 sh 'chmod +x ./test-app.sh'
-                sh './test-app.sh'
-            
+                sh './test-app.sh'            
             } 
         }        
     }
