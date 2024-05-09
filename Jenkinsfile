@@ -21,6 +21,11 @@ pipeline {
                 sh 'chmod +x test-app.sh'
                 sh './test-app.sh'
             } 
-        }        
+        }  
+        stage('Shutdown') {
+            steps {
+                sh 'docker compose down'
+            } 
+        }              
     }
 }    
