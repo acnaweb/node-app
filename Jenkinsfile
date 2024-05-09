@@ -21,4 +21,5 @@ pipeline {
                 sh 'test-app.sh'
             } 
         }        
-}
+    }
+}    
