@@ -21,8 +21,8 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv(installationName:'sonar-server', envOnly: true) {
-                    // echo 'SonarQube Analysis Completed'
+                withSonarQubeEnv(installationName:'sonar-server', envOnly: false) {
+                    echo 'SonarQube Analysis Completed'
 
                     println "${env.SONAR_CONFIG_NAME} "
                     println "${env.SONAR_HOST_URL} "
