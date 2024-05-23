@@ -21,10 +21,7 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv(installationName:'sonar-server', envOnly: false) {
-                    sh 'mvn clean package sonar:sonar'
-                    // bat '''mvn clean verify sonar:sonar -Dsonar.projectKey=${env.SONAR_AUTH_TOKEN} -Dsonar.projectName='node-app' -Dsonar.host.url=${env.SONAR_HOST_URL}'''
-
+                withSonarQubeEnv(installationName:'sonar-scanner', envOnly: false) {
                     // echo 'SonarQube Analysis Completed'
 
                     println "${env.SONAR_CONFIG_NAME} "
