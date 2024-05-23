@@ -1,13 +1,13 @@
 pipeline {
     agent any
     stages {
-        stage('Build') {
+        stage('Build image') {
             steps {
                 sh 'docker build -t acnaweb/node-app .'
             }
         }
 
-        stage('Run') {
+        stage('Run Container') {
             steps {
                 sh 'docker compose up --build -d'
             } 
@@ -19,17 +19,19 @@ pipeline {
             } 
         }
 
-        stage('SonarQube validation') {
+        stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('sonar-server', envOnly: true) {
-                    println "${env.SONAR_CONFIG_NAME} "
-                    println "${env.SONAR_HOST_URL} "
-                    println "${env.SONAR_AUTH_TOKEN} "                    
+                    echo 'SonarQube Analysis Completed'
+
+                    // println "${env.SONAR_CONFIG_NAME} "
+                    // println "${env.SONAR_HOST_URL} "
+                    // println "${env.SONAR_AUTH_TOKEN} "                    
                 }
             }
         }
 
-        stage('Run tests') {
+        stage('Run Tests') {
             steps {
                 sh 'chmod +x test-app.sh'
                 sh './test-app.sh'
