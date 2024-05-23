@@ -20,10 +20,12 @@ pipeline {
         }
 
         stage('SonarQube validation') {
-            withSonarQubeEnv('sonar-server', envOnly: true) {
-                println ${env.SONAR_CONFIG_NAME} 
-                println ${env.SONAR_HOST_URL} 
-                println ${env.SONAR_AUTH_TOKEN} 
+            steps {
+                withSonarQubeEnv('sonar-server', envOnly: true) {
+                    println ${env.SONAR_CONFIG_NAME} 
+                    println ${env.SONAR_HOST_URL} 
+                    println ${env.SONAR_AUTH_TOKEN} 
+                }
             }
         }
 
