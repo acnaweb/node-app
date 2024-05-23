@@ -21,12 +21,11 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv(installationName:'sonar-server', envOnly: false) {
-                    echo 'SonarQube Analysis Completed'
-
-                    println "${env.SONAR_CONFIG_NAME} "
-                    println "${env.SONAR_HOST_URL} "
-                    println "${env.SONAR_AUTH_TOKEN} "                    
+                script {
+                    scannerHome = tool 'sonar-scanner';
+                }
+                withSonarQubeEnv(installationName:'sonar-server', envOnly: false) {                    
+                    sh "sonar-scanner -Dsonar.projectKey=node-app  -Dsonar.host.url=${env.SONAR_HOST_URL} -Dsonar.token=${env.SONAR_AUTH_TOKEN}"
                 }
             }
         }
