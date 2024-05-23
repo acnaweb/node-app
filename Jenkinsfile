@@ -22,9 +22,10 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv(installationName:'sonar-server', envOnly: false) {
-                    // bat '''mvn clean verify sonar:sonar -Dsonar.projectKey=ProjectNameSonar -Dsonar.projectName='ProjectNameSonar' -Dsonar.host.url=http://localhost:9000''' //port 9000 is default for sonar
+                    sh 'mvn clean package sonar:sonar'
+                    // bat '''mvn clean verify sonar:sonar -Dsonar.projectKey=${env.SONAR_AUTH_TOKEN} -Dsonar.projectName='node-app' -Dsonar.host.url=${env.SONAR_HOST_URL}'''
 
-                    echo 'SonarQube Analysis Completed'
+                    // echo 'SonarQube Analysis Completed'
 
                     println "${env.SONAR_CONFIG_NAME} "
                     println "${env.SONAR_HOST_URL} "
@@ -35,15 +36,9 @@ pipeline {
 
         stage("Quality Gate"){
             steps {
+              timeout(time: 1, unit: 'HOURS') {
                 waitForQualityGate abortPipeline: true
-
-                // timeout(time: 5, unit: 'MINUTES') {
-
-                //     // def qg = waitForQualityGate()
-                //     // if (qg.status != 'OK') {
-                //     //     error "Pipeline aborted due to quality gate failure: ${qg.status}"
-                //     // }
-                // }
+              }
             }
         }
 
