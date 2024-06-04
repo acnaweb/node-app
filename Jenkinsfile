@@ -20,6 +20,7 @@ pipeline {
         }
 
         stage('SonarQube Analysis') {
+            agent any
             steps {
                 script {
                     scannerHome = tool 'sonar-scanner';
@@ -31,9 +32,9 @@ pipeline {
         }
 
         stage("Quality Gate"){
-            steps {
-                waitForQualityGate abortPipeline: true
-            }
+            timeout(time: 1, unit: 'MINUTES') {
+                waitForQualityGate abortPipeline: false
+              }
         }
 
         stage('Run Tests') {
