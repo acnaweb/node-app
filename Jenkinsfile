@@ -48,13 +48,11 @@ pipeline {
         stage('Upload docker image') {
             steps {
                 script {
-                    withCredentials({usernamePassword(credentialsId: 'nexus-user', 
-                                                     usernameVariable: 'USERNAME',
-                                                     passwordVariable: 'PASSWORD')})
-                    sh 'docker login -u $USERNAME -p $PASSWORD ${NEXUS_URL}'
-                    sh 'docker tag acnaweb/node-app:latest ${NEXUS_URL}/acnaweb/node-app'
-                    sh 'docker push ${NEXUS_URL}/acnaweb/node-app'
-                    
+                    withCredentials([usernamePassword(credentialsId: 'nexus-user', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+                        sh 'docker login -u $USERNAME -p $PASSWORD ${NEXUS_URL}'
+                        sh 'docker tag acnaweb/node-app:latest ${NEXUS_URL}/acnaweb/node-app'
+                        sh 'docker push ${NEXUS_URL}/acnaweb/node-app'
+                    }                    
                 }
             } 
         }         
